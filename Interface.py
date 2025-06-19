@@ -27,14 +27,7 @@ def XlsxOutput(datalist):
     workbook.close()
     
 def SliceData(datalist, minvalue, maxvalue):
-   belowvalues = 0
-   abovevalues = 0
-   for item in datalist[1:]:
-       if float(item[0]) < minvalue:
-           belowvalues += 1
-       if float(item[0]) > maxvalue:
-           abovevalues += 1           
-   return datalist[belowvalues + 1:len(datalist) - abovevalues]
+   return datalist[next((i for i, x in enumerate(datalist[1:]) if float(x[0]) >= minvalue)) + 1:len(datalist) - next((i for i, x in enumerate(datalist[::-1]) if float(x[0]) <= maxvalue))]
     
 # Example call
 print("Enter path")    
