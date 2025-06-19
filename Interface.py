@@ -5,8 +5,7 @@ def ReadFile(path):
     with open(path, newline='') as csvfile:
         filereader = csv.reader(csvfile, delimiter=',')
         return ReaderToList(filereader)
-        
-            
+           
 def ReaderToList(filereader):
     datalist = []
     for row in filereader:
@@ -26,11 +25,20 @@ def XlsxOutput(datalist):
         worksheet.write(row, col + 1, item2)
         row += 1
     workbook.close()
-
-
-
+    
+def SliceData(datalist, minvalue, maxvalue):
+   belowvalues = 0
+   abovevalues = 0
+   for item in datalist[1:]:
+       if float(item[0]) < minvalue:
+           belowvalues += 1
+       if float(item[0]) > maxvalue:
+           abovevalues += 1           
+   return datalist[belowvalues + 1:len(datalist) - abovevalues]
+    
 # Example call
 print("Enter path")    
 path = str(input())
 datalist = ReadFile(path)
+datalist = SliceData(datalist, 1500, 1600)
 XlsxOutput(datalist)
