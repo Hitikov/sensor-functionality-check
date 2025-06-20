@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from Interface import *
+from Data_processing import SliceData
 
 def CreateBlankGraphic():
     graphic = Image.new('1', [900,1100], 'white')
