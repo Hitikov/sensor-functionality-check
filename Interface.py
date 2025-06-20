@@ -12,9 +12,8 @@ def ReaderToList(filereader):
         datalist.append(tuple(row))
     return datalist
 
-def XlsxOutput(datalist):
-    print("Enter filename")
-    name = str(input())
+def XlsxOutput(datalist, filename):
+    name = filename
     workbook = xlsxwriter.Workbook(name + '.xlsx')
     worksheet = workbook.add_worksheet()
 
@@ -25,12 +24,3 @@ def XlsxOutput(datalist):
         worksheet.write(row, col + 1, item2)
         row += 1
     workbook.close()
-
-'''
-# Example call
-print("Enter path")    
-path = str(input())
-datalist = ReadFile(path)
-datalist = SliceData(datalist, 1500, 1600)
-XlsxOutput(datalist)
-'''
