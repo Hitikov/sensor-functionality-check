@@ -25,13 +25,12 @@ def XlsxOutput(datalist):
         worksheet.write(row, col + 1, item2)
         row += 1
     workbook.close()
-    
-def SliceData(datalist, minvalue, maxvalue):
-   return datalist[next((i for i, x in enumerate(datalist[1:]) if float(x[0]) >= minvalue)) + 1:len(datalist) - next((i for i, x in enumerate(datalist[::-1]) if float(x[0]) <= maxvalue))]
-    
+
+'''
 # Example call
 print("Enter path")    
 path = str(input())
 datalist = ReadFile(path)
 datalist = SliceData(datalist, 1500, 1600)
 XlsxOutput(datalist)
+'''
