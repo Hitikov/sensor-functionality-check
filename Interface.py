@@ -12,9 +12,8 @@ def ReaderToList(filereader):
         datalist.append(tuple(row))
     return datalist
 
-def XlsxOutput(datalist):
-    print("Enter filename")
-    name = str(input())
+def XlsxOutput(datalist, filename):
+    name = filename
     workbook = xlsxwriter.Workbook(name + '.xlsx')
     worksheet = workbook.add_worksheet()
 
@@ -28,10 +27,3 @@ def XlsxOutput(datalist):
     
 def SliceData(datalist, minvalue, maxvalue):
    return datalist[next((i for i, x in enumerate(datalist[1:]) if float(x[0]) >= minvalue)) + 1:len(datalist) - next((i for i, x in enumerate(datalist[::-1]) if float(x[0]) <= maxvalue))]
-    
-# Example call
-print("Enter path")    
-path = str(input())
-datalist = ReadFile(path)
-datalist = SliceData(datalist, 1500, 1600)
-XlsxOutput(datalist)
