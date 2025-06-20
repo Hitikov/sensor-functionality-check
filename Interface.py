@@ -24,6 +24,3 @@ def XlsxOutput(datalist, filename):
         worksheet.write(row, col + 1, item2)
         row += 1
     workbook.close()
-    
-def SliceData(datalist, minvalue, maxvalue):
-   return datalist[next((i for i, x in enumerate(datalist[1:]) if float(x[0]) >= minvalue)) + 1:len(datalist) - next((i for i, x in enumerate(datalist[::-1]) if float(x[0]) <= maxvalue))]

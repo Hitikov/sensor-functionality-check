@@ -1,3 +1,15 @@
+import numpy
+
+# Main function of dataset analysis
+def dataset_analysis(dataset):
+    extremum_values = extremum_search(dataset)
+
+    losses = extremum_values[1]
+    contrast = losses - extremum_values[0]
+    fsr = fsr_search(dataset)
+
+    return  losses, contrast, fsr
+
 # For define losses and interference contrast
 # Extremum search for both directions, data must be collection of pairs
 def extremum_search(data):
@@ -26,3 +38,8 @@ def extremum_search(data):
 
     return highest_min, lowest_max
 
+
+def fsr_search(data):
+    fourier_result = numpy.fft.fft(data)
+
+    return fourier_result # REDO!!! Add max amplitude search
