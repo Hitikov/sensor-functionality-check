@@ -5,8 +5,8 @@ import scipy as sp
 def dataset_analysis(dataset):
     extremum_values = extremum_search(dataset)
 
-    losses = extremum_values[1]
-    contrast = losses - extremum_values[0]
+    losses = extremum_values['low_peak']
+    contrast = losses - extremum_values['high_min']
     fsr = fsr_search(dataset)
 
     return losses, contrast, fsr
@@ -69,7 +69,13 @@ def extremum_search(dataset):
     highest_min_idx = minima[np.argmax(minima_values)]
     highest_min_val = values[highest_min_idx]
 
-    return lowest_min_val, highest_peak_val
+    return {
+        'low_peak':lowest_peak_val,
+        'high_peak':highest_peak_val,
+        'low_min':lowest_min_val,
+        'high_min':highest_min_val
+    }
+
 
 # FSR search with usage of FFT
 def fsr_search(dataset):
@@ -77,18 +83,15 @@ def fsr_search(dataset):
     wavelengths = np.array([item[0] for item in dataset])
     values = np.array([item[1] for item in dataset])
 
-    # Convert wavelengths to wave numbers
-    k = 1 / wavelengths
-
-    # Wave numbers delta
-    dk = k[1] - k[0]
+    # Wave length record delta
+    dw = wavelengths[1] - wavelengths[0]
 
     # FFTs
     fft_result = np.fft.fft(values - np.mean(values))
-    fft_freq = np.fft.fftfreq(len(k), d=dk)
+    fft_freq = np.fft.fftfreq(len(wavelengths), d=dw)
 
     # Amplitudes
-    amplitude = np.abs(fft_result) / len(k)
+    amplitude = np.abs(fft_result) / len(wavelengths)
 
     # Exclude zero frequency and negative frequencies
     positive_freq_mask = (fft_freq > 0)
