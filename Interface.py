@@ -16,7 +16,7 @@ def ReaderToList(filereader):
     for row in filereader:
         datalist.append(tuple(row))
     datalist = SliceData(datalist, 1500, 1600)
-    datalist = convert_to_float(datalist)
+    datalist, blanks_detected = convert_to_float(datalist)
     return datalist
 
 def XlsxOutput(datalist, filename):
