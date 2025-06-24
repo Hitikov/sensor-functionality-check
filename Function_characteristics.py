@@ -9,7 +9,7 @@ def dataset_analysis(dataset):
     contrast = losses - extremum_values['high_min']
     fsr = fsr_search(dataset)
 
-    return losses, contrast, fsr
+    return losses, contrast, fsr, extremum_values['distorted']
 
 # For definition of losses and interference contrast
 # Extremum search for both directions, data must be collection of pairs
@@ -43,9 +43,16 @@ def extremum_search_old(data):
 def extremum_search(dataset):
     values = np.array([item[1] for item in dataset])
 
+    data_is_line = False
+
     smoothed_values = sp.signal.savgol_filter(values, window_length=11, polyorder=3)
     maxima, _ = sp.signal.find_peaks(smoothed_values, prominence=3, distance=10)
     minima, _ = sp.signal.find_peaks(-smoothed_values, prominence=3, distance=10)
+
+    if len(maxima) == 0 or len(minima) == 0:
+        data_is_line = True
+        maxima, _ = sp.signal.find_peaks(smoothed_values, prominence=0, distance=10)
+        minima, _ = sp.signal.find_peaks(-smoothed_values, prominence=0, distance=10)
 
     # Values at maxima
     peak_values = values[maxima]
@@ -73,7 +80,8 @@ def extremum_search(dataset):
         'low_peak':lowest_peak_val,
         'high_peak':highest_peak_val,
         'low_min':lowest_min_val,
-        'high_min':highest_min_val
+        'high_min':highest_min_val,
+        'distorted':data_is_line
     }
 
 
