@@ -13,7 +13,7 @@ def convert_to_float(dataset):
     for sublist in dataset:
         if len(sublist[1]) == 0:
             converted_dataset.append(
-                (float(sublist[0]), previous_value)
+                (float(sublist[0]), float(previous_value))
             )
             blanks_detected = True
         else:
