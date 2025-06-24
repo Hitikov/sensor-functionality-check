@@ -59,7 +59,7 @@ def AnalyseData(datalist, xlsxpath, imgpath):
     freeRow = sheet.max_row + 1
 
     number = str(freeRow - 1)
-    losses, contrast, FSR = dataset_analysis(datalist)
+    losses, contrast, FSR, tempvariable = dataset_analysis(datalist)
     spectre_link = imgpath
     if dataset_validation([losses, contrast], -20, 7):
         condition = "Годен"
