@@ -1,9 +1,10 @@
 ﻿import os
 import csv
 import xlsxwriter
-from openpyxl import load_workbook, cell
+from openpyxl import load_workbook
 from Data_processing import *
 from Function_characteristics import *
+from Graphics import *
 
 def ReadFile(path):
     with open(path, newline='') as csvfile:
@@ -31,10 +32,10 @@ def XlsxOutput(datalist, filename):
         row += 1
     workbook.close()
 
-def AnalyseData(datalist, path): 
+def AnalyseData(datalist, xlsxpath, imgpath):
     #Intial create
-    if not(os.path.exists(path)):   
-        workbook = xlsxwriter.Workbook(path)
+    if not(os.path.exists(xlsxpath)):   
+        workbook = xlsxwriter.Workbook(xlsxpath)
         worksheet = workbook.add_worksheet()
 
         #Field labels
@@ -46,31 +47,26 @@ def AnalyseData(datalist, path):
         worksheet.write(0, 5, "Состояние")
 
         workbook.close()
+    
+
+    #Creating and saving the graphic
+    img = CreateGraphic(datalist)
+    img.save(imgpath)
 
     #Find first free row
-    workbookLoader = load_workbook(filename = path)
+    workbookLoader = load_workbook(filename = xlsxpath)
     sheet = workbookLoader.active
     freeRow = sheet.max_row + 1
 
-    number = "0"
+    number = str(freeRow - 1)
     losses, contrast, FSR = dataset_analysis(datalist)
-    spectre_link = "0"
-    condition = "0"
-
+    spectre_link = imgpath
+    if dataset_validation([losses, contrast], -20, 7):
+        condition = "Годен"
+    else:
+        condition = "Негоден"
     data = [number, losses, contrast, FSR, spectre_link, condition]
-    for i in range(5):
+    for i in range(6):
         cell = sheet.cell(freeRow, i + 1).value = data[i]
 
-    workbookLoader.save(path)
-    return 0      
-
-
-#Example call
-print("Enter path")    
-path = str(input())
-datalist = ReadFile(path)
-datalist = SliceData(datalist, 1500, 1600)
-#img = CreateGraphic(datalist) 
-XlsxOutput(datalist, "1")
-#img.save("2.png")
-AnalyseData(datalist, "C:\\Users\\Admin\\Desktop\\Tests\\Test.xlsx")
+    workbookLoader.save(xlsxpath)

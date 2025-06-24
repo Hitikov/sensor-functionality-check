@@ -1,5 +1,4 @@
 ﻿from PIL import Image, ImageDraw, ImageFont
-from Interface import *
 from Data_processing import *
 
 def CreateBlankGraphic():
@@ -61,14 +60,3 @@ def CreateGraphic(datalist):
         draw.line([SetPosition(previtem), SetPosition(item)], fill='black', width=2)
         previtem = item  
     return graphic
-
-
-#Example call
-print("Enter path")    
-path = str(input())
-datalist = ReadFile(path)
-datalist = SliceData(datalist, 1500, 1600)
-img = CreateGraphic(datalist) 
-XlsxOutput(datalist, "1")
-img.save("2.png")
-AnalyseData(datalist, "C:\\Users\\Admin\\Desktop\\Tests\\Test.xlsx")
