@@ -30,9 +30,13 @@ def handler_multiply_file():
     date = str(datetime.now())
     date = date.replace(':', '.')
 
-    xlsxpath = 'results/' + date + '.xlsx'
-    imgdir = 'results/graphs/' + date
+    resultdir = 'results/' + date
+    os.makedirs(resultdir, exist_ok=True)
+
+    imgdir = resultdir + '/graphs'
     os.makedirs(imgdir, exist_ok=True)
+
+    xlsxpath = resultdir + '/result.xlsx'
     imgdir = imgdir + '/'
 
     print("Analysing...")

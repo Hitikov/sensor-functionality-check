@@ -76,10 +76,8 @@ def AnalyseData(datalist, xlsxpath, imgpath, record_name):
 def check_directory_requirements():
     relative_path_records = 'records'
     relative_path_results = 'results'
-    relative_path_graphs = 'results/graphs'
     if (not os.path.exists(relative_path_records)
-        or not os.path.exists(relative_path_results)
-        or not os.path.exists(relative_path_graphs)):
+        or not os.path.exists(relative_path_results)):
         return False
 
     return True
@@ -87,10 +85,8 @@ def check_directory_requirements():
 def prepare_folders():
     relative_path_records = 'records'
     relative_path_results = 'results'
-    relative_path_graphs = 'results/graphs'
     os.makedirs(relative_path_records, exist_ok=True)
     os.makedirs(relative_path_results, exist_ok=True)
-    os.makedirs(relative_path_graphs, exist_ok=True)
 
 def get_file_names(path, extension):
     return [entry.name for entry in os.scandir(path) if entry.is_file() and entry.name.endswith(extension)]
