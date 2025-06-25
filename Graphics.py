@@ -52,6 +52,8 @@ def CreateBlankGraphic():
 def SetPosition(data): #Converts string value to an integer position on a graphic
     XPos = ((float(data[0]) - 1500) * 8) + 100
     YPos = abs(((float(data[1]) + 10) * 20))
+    if data[1] <= -60:
+        YPos = 1000
     return [int(XPos), int(YPos)]
     
 def CreateGraphic(datalist):

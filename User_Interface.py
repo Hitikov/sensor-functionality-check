@@ -1,4 +1,4 @@
-﻿from datetime import datetime
+﻿from datetime import date, datetime
 
 from Interface import *
 
@@ -65,8 +65,7 @@ def handler_no_directory():
 def handler_single_file():
     print('Enter absolute path to .csv file. Type "Q" to quit')
 
-    path = ("C:\\Users\\Admin\\Desktop\\Папка с папками\\Практика\\Practice\\3.csv")
-    #path = str(input())
+    path = str(input())
     IsQuitting = False
     if path == "Q":
         print("Quitting...")
@@ -84,15 +83,23 @@ def handler_single_file():
     datalist = ReadFile(path)
 
     #Добавить защиту от слабоумных
-    print("Enter the path to save .xlsx file")
-    xlsxpath = ("C:\\Users\\Admin\\Desktop\\Tests\\Test.xlsx")
+    #print("Enter the path to save .xlsx file")
     #xlsxpath = str(input())
-    print("Where to save graphic file?")
-    imgpath = ("C:\\Users\\Admin\\Desktop\\Tests\\3.png")
+    #print("Where to save graphic file?")
     #imgpath = str(input())
 
+    #Sets the date of today, but not the time, because single files can't be loaded simultaneously 
+    todayDate = str(date.today())
+    todayDate = todayDate.replace(':', '.')
+
+    xlsxpath = 'results/' + todayDate + '-singles.xlsx'
+    imgdir = 'results/graphs/' + todayDate + '-singles'
+    os.makedirs(imgdir, exist_ok=True)
+    imgdir = imgdir + '/'
+    record_name = os.path.splitext(os.path.splitext(os.path.basename(path))[0])[0]
+
     print("Analysing...")
-    AnalyseData(datalist, xlsxpath, imgpath, '3')
+    AnalyseData(datalist, xlsxpath, imgdir + record_name + '.png', record_name)
     print("Done")
     return
 
