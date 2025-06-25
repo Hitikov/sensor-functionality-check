@@ -1,4 +1,5 @@
 ﻿from datetime import date, datetime
+from pathlib import Path
 
 from Interface import *
 
@@ -55,7 +56,8 @@ def handler_multiply_files():
     for path in files:
         dataset = ReadFile('records/' + path)
         record_name = os.path.splitext(path)[0]
-        AnalyseData(dataset, xlsxpath, imgdir + record_name + '.png', record_name)
+        imgpath = str(Path(imgdir + record_name + '.png').resolve())
+        AnalyseData(dataset, xlsxpath, imgpath, record_name)
 
     print("Done")
 
