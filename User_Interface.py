@@ -11,7 +11,7 @@ def handler_startup():
 
         # Awaiting of correct user input
         while mode != '1' and mode != '2' and mode != '0':
-            print('1. Multiply records\n'
+            print('1. Multiple records\n'
                   '2. Single record\n'
                   '0. Stop program\n'
                   'Choose working mode: ')
@@ -21,6 +21,7 @@ def handler_startup():
         match mode:
             case '1': handler_multiply_files()
             case '2': handler_single_file()
+            case '0': break
 
 # Work with multiply files
 def handler_multiply_files():
