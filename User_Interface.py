@@ -2,45 +2,56 @@
 
 from Interface import *
 
+# Work mode selection
 def handler_startup():
     mode = -1
     while mode !=  0:
         mode = -1
-        while mode != 1 and mode != 2 and mode != 0:
+
+        # Awaiting of correct user input
+        while mode != '1' and mode != '2' and mode != '0':
             print('1. Multiply records\n'
                   '2. Single record\n'
                   '0. Stop program\n'
                   'Choose working mode: ')
-            mode = int(input())
+            mode = input()
 
+        # Redirection to working modes
         match mode:
-            case 1: handler_multiply_file()
-            case 2: handler_single_file()
+            case '1': handler_multiply_files()
+            case '2': handler_single_file()
 
-
-def handler_multiply_file():
+# Work with multiply files
+def handler_multiply_files():
+    # Validation of directory requirements
     if not check_directory_requirements():
         if not handler_no_directory():
             return
 
     print('Xls file and graphs folder with current datetime will be created.')
 
+    # Getting list of .csv files in record directory
     files = get_file_names('records', '.csv')
 
+    # Current date and time
     date = str(datetime.now())
     date = date.replace(':', '.')
 
+    # Creation of result directory with current datetime in name
     resultdir = 'results/' + date
     os.makedirs(resultdir, exist_ok=True)
 
     imgdir = resultdir + '/graphs'
     os.makedirs(imgdir, exist_ok=True)
 
-    xlsxpath = resultdir + '/result.xlsx'
     imgdir = imgdir + '/'
+
+    # Path for .xlsx file
+    xlsxpath = resultdir + '/result.xlsx'
 
     print("Analysing...")
 
+    # Data analysis for every .csv file in records directory
     for path in files:
         dataset = ReadFile('records/' + path)
         record_name = os.path.splitext(path)[0]
@@ -48,7 +59,7 @@ def handler_multiply_file():
 
     print("Done")
 
-
+# Conflict resolution when directory requirements are not met
 def handler_no_directory():
     print('For correct work of program records and results folder required.\n'
           'Create folders? (y/n): ')

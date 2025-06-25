@@ -5,6 +5,7 @@ import scipy as sp
 def dataset_analysis(dataset):
     extremum_values = extremum_search(dataset)
 
+    # Sensor spectrum attributes
     losses = extremum_values['low_peak']
     contrast = losses - extremum_values['high_min']
     fsr = fsr_search(dataset)
@@ -45,12 +46,17 @@ def extremum_search(dataset):
 
     data_is_line = False
 
+    # Value smoothing
     smoothed_values = sp.signal.savgol_filter(values, window_length=11, polyorder=3)
+
+    # All maxima and minima indexes
     maxima, _ = sp.signal.find_peaks(smoothed_values, prominence=3, distance=10)
     minima, _ = sp.signal.find_peaks(-smoothed_values, prominence=3, distance=10)
 
+    # Check if data have no expressed maxima or minima
     if len(maxima) == 0 or len(minima) == 0:
         data_is_line = True
+        # All maxima and minima indexes with lower requirements
         maxima, _ = sp.signal.find_peaks(smoothed_values, prominence=0, distance=10)
         minima, _ = sp.signal.find_peaks(-smoothed_values, prominence=0, distance=10)
 
@@ -117,7 +123,7 @@ def fsr_search(dataset):
 
     return FSR_wavelength
 
-
+# Dataset validation according to requirements
 def dataset_validation(set_results, loss_request, contrast_request):
     if set_results[0] < loss_request:
         return False

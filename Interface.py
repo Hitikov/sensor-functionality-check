@@ -72,7 +72,7 @@ def AnalyseData(datalist, xlsxpath, imgpath, record_name):
 
     workbookLoader.save(xlsxpath)
 
-
+# Validation of records and results directories existence
 def check_directory_requirements():
     relative_path_records = 'records'
     relative_path_results = 'results'
@@ -82,11 +82,13 @@ def check_directory_requirements():
 
     return True
 
+# Creation of records and results directories
 def prepare_folders():
     relative_path_records = 'records'
     relative_path_results = 'results'
     os.makedirs(relative_path_records, exist_ok=True)
     os.makedirs(relative_path_results, exist_ok=True)
 
+# Get list of file names in specified directory with specified extension
 def get_file_names(path, extension):
     return [entry.name for entry in os.scandir(path) if entry.is_file() and entry.name.endswith(extension)]
