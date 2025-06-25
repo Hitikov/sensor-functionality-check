@@ -46,6 +46,7 @@ def AnalyseData(datalist, xlsxpath, imgpath, record_name):
         worksheet.write(0, 2, "Контраст интерференции, дБ")
         worksheet.write(0, 3, "FSR")
         worksheet.write(0, 4, "Спектр")
+        worksheet.write(0, 5, "Состояние")
 
         workbook.close()
     
@@ -62,14 +63,16 @@ def AnalyseData(datalist, xlsxpath, imgpath, record_name):
     losses, contrast, FSR, tempvariable = dataset_analysis(datalist)
     spectre_link = imgpath
     if dataset_validation([losses, contrast], -20, 7):
-        fillColor = styles.colors.Color(rgb='0000FF00')
+        fillColor = styles.colors.Color(rgb='0099FF33')
+        condition = "Годен"
     else:
-        fillColor = styles.colors.Color(rgb='00FF0000')
-    data = [record_name, losses, contrast, FSR, spectre_link]
-    for i in range(5):
+        fillColor = styles.colors.Color(rgb='00FF2E2E')
+        condition = "Негоден"
+    data = [record_name, losses, contrast, FSR, spectre_link, condition]
+    for i in range(6):
         cell = sheet.cell(freeRow, i + 1).value = data[i]
     fill = styles.fills.PatternFill(patternType='solid', fgColor=fillColor)
-    for i in range(5):
+    for i in range(6):
         cell = sheet.cell(freeRow, i + 1).fill = fill
 
     workbookLoader.save(xlsxpath)
