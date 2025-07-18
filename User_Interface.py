@@ -27,8 +27,8 @@ def handler_startup():
 def handler_multiply_files():
     # Validation of directory requirements
     if not check_directory_requirements():
-        if not handler_no_directory():
-            return
+        handler_no_directory()
+        return
 
     print('Xls file and graphs folder with current datetime will be created.')
 
@@ -75,6 +75,7 @@ def handler_no_directory():
 
     if userinput == 'y':
             prepare_folders()
+            print('Directories created. Import sensor specters to "records" directory.')
             return True
 
     return False
