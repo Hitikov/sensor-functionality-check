@@ -67,7 +67,7 @@ def handler_no_directory():
     print('For correct work of program records and results folder required.\n'
           'Create folders? (y/n): ')
 
-    userinput = ''
+    userinput = input()
 
     while userinput != 'y' and userinput != 'n':
         print('Incorrect input. Create folders? (y/n):  ')
