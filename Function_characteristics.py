@@ -102,6 +102,8 @@ def fsr_search(dataset):
 
     # FFTs
     fft_result = np.fft.fft(values - np.mean(values))
+
+    # Acquire record spacing suitable for FTT
     fft_freq = np.fft.fftfreq(len(wavelengths), d=dw)
 
     # Amplitudes
